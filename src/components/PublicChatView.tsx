@@ -154,7 +154,7 @@ export const PublicChatView: React.FC<PublicChatViewProps> = ({
               alt="AaronGPT emblem"
               referrerPolicy="no-referrer"
               onError={() => setEmblemError(true)}
-              className="w-7 h-7 object-contain shrink-0 pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)] dark:drop-shadow-none"
+              className="w-7 h-7 object-contain shrink-0 pointer-events-none"
             />
           )}
           <div className="text-lg font-semibold tracking-tight flex items-baseline">
@@ -215,7 +215,7 @@ export const PublicChatView: React.FC<PublicChatViewProps> = ({
                   alt="AaronGPT mascot Proof"
                   referrerPolicy="no-referrer"
                   onError={() => setEmblemError(true)}
-                  className="w-48 h-48 sm:w-56 sm:h-56 object-contain pointer-events-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.14)] dark:drop-shadow-none"
+                  className="w-48 h-48 sm:w-56 sm:h-56 object-contain pointer-events-none"
                 />
               )}
 
@@ -297,7 +297,7 @@ export const PublicChatView: React.FC<PublicChatViewProps> = ({
                             alt="Proof"
                             referrerPolicy="no-referrer"
                             onError={() => setEmblemError(true)}
-                            className="w-full h-full object-contain pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.18)] dark:drop-shadow-none"
+                            className="w-full h-full object-contain pointer-events-none"
                           />
                         ) : (
                           <span className="font-pixel text-xs text-[#FFAA08]">A</span>
