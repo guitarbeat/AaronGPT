@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: aarongpt
+    runtime: node
+    repo: https://github.com/guitarbeat/AaronGPT
+    branch: main
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm start
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /api/state
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22.12.0
