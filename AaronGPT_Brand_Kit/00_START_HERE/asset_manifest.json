@@ -1,0 +1,450 @@
+[
+  {
+    "file": "00_START_HERE/README.md",
+    "bytes": 2994
+  },
+  {
+    "file": "00_START_HERE/brand_kit_preview.png",
+    "bytes": 309017,
+    "dimensions": [
+      1266,
+      1106
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "00_START_HERE/color_palette_1280x700.png",
+    "bytes": 4834,
+    "dimensions": [
+      1280,
+      700
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "00_START_HERE/design_tokens.css",
+    "bytes": 749
+  },
+  {
+    "file": "00_START_HERE/design_tokens.json",
+    "bytes": 568
+  },
+  {
+    "file": "01_LOGOS/aarongpt_horizontal_lockup_1640x640.png",
+    "bytes": 230335,
+    "dimensions": [
+      1640,
+      640
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_icon_only_black_1024.png",
+    "bytes": 342265,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_icon_only_black_512.png",
+    "bytes": 113843,
+    "dimensions": [
+      512,
+      512
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_knot_mascot_transparent.png",
+    "bytes": 519711,
+    "dimensions": [
+      854,
+      912
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "01_LOGOS/aarongpt_primary_black_1024.png",
+    "bytes": 538754,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_primary_black_1254.png",
+    "bytes": 744903,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_primary_light_panel_1024.png",
+    "bytes": 235505,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_primary_transparent_1254.png",
+    "bytes": 830712,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "01_LOGOS/aarongpt_underline_transparent.png",
+    "bytes": 21146,
+    "dimensions": [
+      784,
+      48
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "01_LOGOS/aarongpt_wordmark_black.png",
+    "bytes": 73288,
+    "dimensions": [
+      1120,
+      235
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "01_LOGOS/aarongpt_wordmark_transparent.png",
+    "bytes": 109564,
+    "dimensions": [
+      996,
+      159
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/app_icon_180.png",
+    "bytes": 21515,
+    "dimensions": [
+      180,
+      180
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/app_icon_192.png",
+    "bytes": 23762,
+    "dimensions": [
+      192,
+      192
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/app_icon_512.png",
+    "bytes": 113843,
+    "dimensions": [
+      512,
+      512
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/avatar_knot_proof_1024.png",
+    "bytes": 342265,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/avatar_knot_proof_128.png",
+    "bytes": 12717,
+    "dimensions": [
+      128,
+      128
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/avatar_knot_proof_256.png",
+    "bytes": 38488,
+    "dimensions": [
+      256,
+      256
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/avatar_knot_proof_512.png",
+    "bytes": 113843,
+    "dimensions": [
+      512,
+      512
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/community_icon_512.png",
+    "bytes": 104213,
+    "dimensions": [
+      512,
+      512
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/favicon.ico",
+    "bytes": 1553,
+    "dimensions": [
+      48,
+      48
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/favicon_16.png",
+    "bytes": 180,
+    "dimensions": [
+      16,
+      16
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/favicon_32.png",
+    "bytes": 198,
+    "dimensions": [
+      32,
+      32
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/favicon_48.png",
+    "bytes": 227,
+    "dimensions": [
+      48,
+      48
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "02_AVATARS_FAVICONS/favicon_64.png",
+    "bytes": 267,
+    "dimensions": [
+      64,
+      64
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/opengraph_1200x630.png",
+    "bytes": 176426,
+    "dimensions": [
+      1200,
+      630
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/social_header_1500x500.png",
+    "bytes": 176902,
+    "dimensions": [
+      1500,
+      500
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/social_post_square_1080.png",
+    "bytes": 307495,
+    "dimensions": [
+      1080,
+      1080
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/story_1080x1920.png",
+    "bytes": 412196,
+    "dimensions": [
+      1080,
+      1920
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/website_hero_1600x900.png",
+    "bytes": 346367,
+    "dimensions": [
+      1600,
+      900
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "03_SOCIAL_WEB/youtube_banner_2560x1440.png",
+    "bytes": 181856,
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "04_PROOF_MASCOT/proof_full_body_high_res_transparent.png",
+    "bytes": 311278,
+    "dimensions": [
+      557,
+      1087
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "04_PROOF_MASCOT/proof_original_sprite_transparent.png",
+    "bytes": 25826,
+    "dimensions": [
+      123,
+      180
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "04_PROOF_MASCOT/proof_thumbs_up_sticker_640.png",
+    "bytes": 41611,
+    "dimensions": [
+      640,
+      640
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "04_PROOF_MASCOT/proof_thumbs_up_transparent_512.png",
+    "bytes": 39501,
+    "dimensions": [
+      512,
+      512
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "05_BACKGROUNDS/desktop_wallpaper_1920x1080.png",
+    "bytes": 305253,
+    "dimensions": [
+      1920,
+      1080
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "05_BACKGROUNDS/phone_wallpaper_1080x1920.png",
+    "bytes": 310161,
+    "dimensions": [
+      1080,
+      1920
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "05_BACKGROUNDS/repeating_pixel_pattern_preview_1024.png",
+    "bytes": 6234,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "05_BACKGROUNDS/repeating_pixel_pattern_tile_192.png",
+    "bytes": 748,
+    "dimensions": [
+      192,
+      192
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "06_UI_ELEMENTS/amber_spark_transparent_128.png",
+    "bytes": 305,
+    "dimensions": [
+      128,
+      128
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "06_UI_ELEMENTS/button_ask_a_question.png",
+    "bytes": 866,
+    "dimensions": [
+      540,
+      132
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "06_UI_ELEMENTS/button_send.png",
+    "bytes": 577,
+    "dimensions": [
+      350,
+      116
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "06_UI_ELEMENTS/pixel_chat_bubble_transparent_256.png",
+    "bytes": 770,
+    "dimensions": [
+      256,
+      256
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "06_UI_ELEMENTS/status_online_badge.png",
+    "bytes": 648,
+    "dimensions": [
+      460,
+      88
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "07_SOURCE/official_generated_master.png",
+    "bytes": 744903,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "has_alpha": false
+  },
+  {
+    "file": "07_SOURCE/proof_portrait_reference.png",
+    "bytes": 1651920,
+    "dimensions": [
+      1204,
+      1306
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "07_SOURCE/proof_thumbsup_reference_sprite.png",
+    "bytes": 32874,
+    "dimensions": [
+      256,
+      256
+    ],
+    "has_alpha": true
+  },
+  {
+    "file": "README.md",
+    "bytes": 100
+  }
+]

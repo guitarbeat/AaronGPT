@@ -1,0 +1,16 @@
+/* AaronGPT brand tokens. All fonts are suggestions, not bundled assets. */
+:root {
+  --aaron-bg: #000000;
+  --aaron-ink: #100C16;
+  --aaron-plum: #24162C;
+  --aaron-violet: #4C295D;
+  --aaron-lavender: #AD71D4;
+  --aaron-cream: #FFF1D9;
+  --aaron-amber: #FFAA08;
+  --aaron-skin: #D07120;
+  --aaron-white: #FCF7F4;
+  --aaron-pixel-font: "Press Start 2P", "Pixelify Sans", monospace;
+  --aaron-ui-font: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.aaron-pixel-art { image-rendering: pixelated; image-rendering: crisp-edges; }
+.aaron-btn { background: var(--aaron-amber); color: var(--aaron-bg); border: 3px solid var(--aaron-cream); box-shadow: 6px 6px 0 var(--aaron-violet); border-radius: 0; font-family: var(--aaron-pixel-font); }

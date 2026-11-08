@@ -1,0 +1,30 @@
+{
+  "brand": "AaronGPT",
+  "mascot": "Proof",
+  "colors": {
+    "black": "#000000",
+    "ink": "#100C16",
+    "plum": "#24162C",
+    "violet": "#4C295D",
+    "lavender": "#AD71D4",
+    "lavender_shadow": "#754D9C",
+    "cream": "#FFF1D9",
+    "amber": "#FFAA08",
+    "brown": "#D07120",
+    "white": "#FCF7F4",
+    "gray": "#A39AAA"
+  },
+  "style": [
+    "pixel-art",
+    "black background",
+    "cream knot",
+    "lavender shadow",
+    "amber accent",
+    "flat shading"
+  ],
+  "font_suggestions": [
+    "Press Start 2P",
+    "Pixelify Sans",
+    "ui-monospace"
+  ]
+}

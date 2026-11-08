@@ -1,0 +1,6 @@
+{
+  "name": "AaronGPT",
+  "description": "An interactive conversational interface powered by real-time human operator responses and live session monitoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

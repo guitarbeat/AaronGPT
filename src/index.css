@@ -1,0 +1,114 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --aaron-bg: #FFFFFF;
+  --aaron-surface: #F4F4F4;
+  --aaron-text: #0D0D0D;
+  --aaron-muted: #5D5D5D;
+  --aaron-amber: #FFAA08;
+  --aaron-lavender: #AD71D4;
+  --aaron-cream: #FFF1D9;
+  --aaron-pixel-font: 'Pixelify Sans', 'JetBrains Mono', monospace;
+}
+
+.dark {
+  --aaron-bg: #212121;
+  --aaron-surface: #2F2F2F;
+  --aaron-text: #ECECEC;
+  --aaron-muted: #B4B4B4;
+}
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--aaron-bg);
+    color: var(--aaron-text);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.aaron-pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.font-pixel {
+  font-family: var(--aaron-pixel-font);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes aaronThinkingDot {
+  0%, 80%, 100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes aaronThinkingPulse {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-thinking-text {
+  animation: aaronThinkingPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-thinking-dot-1 {
+  animation: aaronThinkingDot 1.4s infinite ease-in-out;
+  animation-delay: 0ms;
+}
+
+.animate-thinking-dot-2 {
+  animation: aaronThinkingDot 1.4s infinite ease-in-out;
+  animation-delay: 200ms;
+}
+
+.animate-thinking-dot-3 {
+  animation: aaronThinkingDot 1.4s infinite ease-in-out;
+  animation-delay: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-thinking-text,
+  .animate-thinking-dot-1,
+  .animate-thinking-dot-2,
+  .animate-thinking-dot-3 {
+    animation: none;
+  }
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.4);
+}
