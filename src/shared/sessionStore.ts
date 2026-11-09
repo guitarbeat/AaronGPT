@@ -26,6 +26,8 @@ export interface ChatSession {
 
 export interface StoreState {
   sessions: Record<string, ChatSession>;
+  nextVisitorNumber?: number;
+  visitorAliases?: Record<string, string>;
 }
 
 export interface CannedMacro {
@@ -64,13 +66,50 @@ function nextId(prefix: string): string {
 }
 
 export function createInitialSeedState(_now?: number): StoreState {
-  return { sessions: {} };
+  return {
+    sessions: {},
+    nextVisitorNumber: 1,
+    visitorAliases: {},
+  };
 }
 
 export function deriveSessionTitle(text: string): string {
   const cleaned = text.trim().replace(/\s+/g, ' ');
   if (!cleaned) return 'New conversation';
   return cleaned.length > 44 ? `${cleaned.slice(0, 41)}...` : cleaned;
+}
+
+function resolveSequentialAlias(
+  state: StoreState,
+  sessionId: string,
+  customAlias?: string
+): string {
+  if (!state.visitorAliases) {
+    state.visitorAliases = {};
+  }
+  if (typeof state.nextVisitorNumber !== 'number' || state.nextVisitorNumber < 1) {
+    state.nextVisitorNumber = Object.keys(state.sessions).length + 1;
+  }
+
+  if (state.visitorAliases[sessionId]) {
+    return state.visitorAliases[sessionId];
+  }
+
+  // Ignore any legacy client-side alias containing "(You)" or random "Visitor #<3-digit>"
+  const cleanedCustom = (customAlias || '')
+    .replace(/\s*\(You\)\s*/gi, '')
+    .trim();
+  const isLegacyRandomVisitor = /^Visitor #\d{3,}$/i.test(cleanedCustom);
+
+  if (cleanedCustom && !isLegacyRandomVisitor && !/\(You\)/i.test(customAlias || '')) {
+    state.visitorAliases[sessionId] = cleanedCustom;
+    return cleanedCustom;
+  }
+
+  const assigned = `Visitor #${state.nextVisitorNumber}`;
+  state.nextVisitorNumber += 1;
+  state.visitorAliases[sessionId] = assigned;
+  return assigned;
 }
 
 export function ensureSession(
@@ -83,13 +122,16 @@ export function ensureSession(
   const existing = state.sessions[sessionId];
   if (existing) {
     existing.isConnected = true;
+    if (/\(You\)/i.test(existing.alias)) {
+      existing.alias = resolveSequentialAlias(state, sessionId);
+    }
     return existing;
   }
 
-  const count = Object.keys(state.sessions).length + 403;
+  const resolvedAlias = resolveSequentialAlias(state, sessionId, alias);
   const newSession: ChatSession = {
     id: sessionId,
-    alias: alias || `Visitor #${count}`,
+    alias: resolvedAlias,
     title: 'New conversation',
     status: 'active',
     createdAt: now,
@@ -106,17 +148,25 @@ export function ensureSession(
   return newSession;
 }
 
+export function resetSession(state: StoreState, sessionId: string): boolean {
+  if (!sessionId) return false;
+  const existed = Boolean(state.sessions[sessionId]);
+  delete state.sessions[sessionId];
+  return existed;
+}
+
 export function addUserMessage(
   state: StoreState,
   sessionId: string,
   text: string,
   messageId?: string,
-  now: number = Date.now()
+  now: number = Date.now(),
+  userAgent: string = 'Web Browser'
 ): ChatMessage | null {
   const trimmed = text.trim();
   if (!trimmed) return null;
 
-  const session = ensureSession(state, sessionId, undefined, undefined, now);
+  const session = ensureSession(state, sessionId, undefined, userAgent, now);
   const id = messageId || nextId('msg-u');
 
   // Idempotency check

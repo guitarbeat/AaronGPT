@@ -129,7 +129,7 @@ export const PublicChatView: React.FC<PublicChatViewProps> = ({
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         placeholder="Ask anything"
-        className="flex-1 max-h-36 resize-none bg-transparent text-[15px] text-[#0D0D0D] dark:text-[#ECECEC] placeholder-[#676767] dark:placeholder-[#9B9B9B] focus:outline-none leading-relaxed py-0.5"
+        className="flex-1 max-h-36 resize-none bg-transparent text-base sm:text-[15px] text-[#0D0D0D] dark:text-[#ECECEC] placeholder-[#676767] dark:placeholder-[#9B9B9B] focus:outline-none leading-relaxed py-0.5"
       />
       <button
         type="submit"
@@ -143,9 +143,9 @@ export const PublicChatView: React.FC<PublicChatViewProps> = ({
   );
 
   return (
-    <div className="flex flex-col h-screen w-full overflow-hidden bg-white dark:bg-[#212121] text-[#0D0D0D] dark:text-[#ECECEC] transition-colors duration-150">
+    <div className="flex flex-col h-[100dvh] w-full overflow-hidden bg-white dark:bg-[#212121] text-[#0D0D0D] dark:text-[#ECECEC] transition-colors duration-150">
       {/* Minimal Top Bar */}
-      <header className="h-14 px-5 flex items-center justify-between gap-8 shrink-0">
+      <header className="h-14 px-4 sm:px-5 flex items-center justify-between gap-4 shrink-0">
         {/* Top-left lockup: ONLY the word "Aaron" is clickable */}
         <div className="flex items-center gap-2 whitespace-nowrap shrink-0 select-none">
           {!emblemError && (

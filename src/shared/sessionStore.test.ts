@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   createInitialSeedState,
   ensureSession,
+  resetSession,
   addUserMessage,
   addAaronReply,
   setTypingIndicator,
@@ -22,9 +23,31 @@ test('seed state initializes empty with no demo sessions', () => {
   assert.equal(metrics.totalMessages, 0);
 });
 
+test('assigns sequential Visitor #1, Visitor #2 names and preserves number across resetSession', () => {
+  const state = createInitialSeedState();
+  addUserMessage(state, 'sess-v1', 'First visitor question', 'm-v1-1', 1000);
+  addUserMessage(state, 'sess-v2', 'Second visitor question', 'm-v2-1', 2000);
+
+  assert.equal(state.sessions['sess-v1'].alias, 'Visitor #1');
+  assert.equal(state.sessions['sess-v2'].alias, 'Visitor #2');
+
+  // Resetting sess-v1 removes it from active sessions until they send a new message
+  const removed = resetSession(state, 'sess-v1');
+  assert.equal(removed, true);
+  assert.equal('sess-v1' in state.sessions, false);
+
+  // Sending a new message from sess-v1 reuses Visitor #1 without multiplying visitor numbers
+  addUserMessage(state, 'sess-v1', 'Follow-up after new chat', 'm-v1-2', 3000);
+  const restored = state.sessions['sess-v1'];
+  assert.ok(restored);
+  assert.equal(restored.alias, 'Visitor #1');
+  assert.equal(restored.messages.length, 1);
+});
+
 test('addUserMessage creates or updates a session and transitions status to waiting', () => {
   const state = createInitialSeedState(1700000000000);
-  const session = ensureSession(state, 'sess-custom-1', 'Visitor #999', 'TestBrowser', 1700000001000);
+  const session = ensureSession(state, 'sess-custom-1', 'Visitor #999 (You)', 'TestBrowser', 1700000001000);
+  assert.equal(session.alias, 'Visitor #1');
   assert.equal(session.status, 'active');
   assert.equal(session.messages.length, 0);
 

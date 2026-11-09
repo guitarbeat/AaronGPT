@@ -6,7 +6,7 @@ import { WebSocketServer, WebSocket } from 'ws';
 import { createServer as createViteServer } from 'vite';
 import {
   createInitialSeedState,
-  ensureSession,
+  resetSession,
   addUserMessage,
   addAaronReply,
   setTypingIndicator,
@@ -79,31 +79,39 @@ async function startServer() {
         const data = JSON.parse(String(raw));
         switch (data.type) {
           case 'session:join': {
-            const { sessionId, alias, userAgent, role } = data;
+            const { sessionId, role } = data;
             if (role === 'operator') {
               meta.role = 'operator';
             }
             if (sessionId) {
               meta.sessionId = sessionId;
-              ensureSession(state, sessionId, alias, userAgent);
-              broadcastState('session:updated', { sessionId });
+              // Only update connection status if this session already exists (has messages)
+              if (state.sessions[sessionId]) {
+                state.sessions[sessionId].isConnected = true;
+                broadcastState('session:updated', { sessionId });
+              }
             }
             break;
           }
-          case 'session:create': {
-            const { sessionId, alias, userAgent } = data;
+          case 'session:reset': {
+            const { sessionId } = data;
             if (sessionId) {
-              meta.sessionId = sessionId;
-              ensureSession(state, sessionId, alias, userAgent);
-              broadcastState('session:created', { sessionId });
+              resetSession(state, sessionId);
+              broadcastState('session:reset', { sessionId });
             }
             break;
           }
           case 'message:user': {
-            const { sessionId, text, messageId, alias, userAgent } = data;
+            const { sessionId, text, messageId, userAgent } = data;
             if (sessionId && text) {
-              ensureSession(state, sessionId, alias, userAgent);
-              const message = addUserMessage(state, sessionId, text, messageId);
+              const message = addUserMessage(
+                state,
+                sessionId,
+                String(text),
+                messageId,
+                Date.now(),
+                userAgent || 'Web Client'
+              );
               if (message) {
                 broadcastState('message:created', { sessionId, message });
               }
@@ -172,24 +180,43 @@ async function startServer() {
   });
 
   app.post('/api/session/join', (req, res) => {
-    const { sessionId, alias, userAgent } = req.body || {};
+    const { sessionId } = req.body || {};
     if (!sessionId) {
       res.status(400).json({ error: 'sessionId is required' });
       return;
     }
-    const session = ensureSession(state, sessionId, alias, userAgent);
-    broadcastState('session:updated', { sessionId });
-    res.json({ session, sessions: state.sessions });
+    if (state.sessions[sessionId]) {
+      state.sessions[sessionId].isConnected = true;
+      broadcastState('session:updated', { sessionId });
+    }
+    res.json({ session: state.sessions[sessionId] || null, sessions: state.sessions });
+  });
+
+  app.post('/api/session/reset', (req, res) => {
+    const { sessionId } = req.body || {};
+    if (!sessionId) {
+      res.status(400).json({ error: 'sessionId is required' });
+      return;
+    }
+    resetSession(state, sessionId);
+    broadcastState('session:reset', { sessionId });
+    res.json({ sessions: state.sessions });
   });
 
   app.post('/api/message/user', (req, res) => {
-    const { sessionId, text, messageId, alias, userAgent } = req.body || {};
+    const { sessionId, text, messageId, userAgent } = req.body || {};
     if (!sessionId || !text || !String(text).trim()) {
       res.status(400).json({ error: 'sessionId and non-empty text are required' });
       return;
     }
-    ensureSession(state, sessionId, alias, userAgent);
-    const message = addUserMessage(state, sessionId, String(text), messageId);
+    const message = addUserMessage(
+      state,
+      sessionId,
+      String(text),
+      messageId,
+      Date.now(),
+      userAgent || 'Web Client'
+    );
     broadcastState('message:created', { sessionId, message });
     res.json({ message, sessions: state.sessions });
   });

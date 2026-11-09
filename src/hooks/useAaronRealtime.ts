@@ -2,30 +2,24 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChatSession, SessionStatus } from '../shared/sessionStore';
 
 const LOCAL_SESSION_KEY = 'aarongpt_current_session_id';
-const LOCAL_ALIAS_KEY = 'aarongpt_current_alias';
+const LEGACY_ALIAS_KEY = 'aarongpt_current_alias';
 
-function getOrCreateBrowserSessionId(): { sessionId: string; alias: string } {
+function getOrCreateBrowserSessionId(): string {
+  // Clean up any legacy client-side "(You)" alias stored in localStorage
+  localStorage.removeItem(LEGACY_ALIAS_KEY);
+
   let sessionId = localStorage.getItem(LOCAL_SESSION_KEY);
-  let alias = localStorage.getItem(LOCAL_ALIAS_KEY);
-
   if (!sessionId) {
-    const randomNum = Math.floor(420 + Math.random() * 480);
-    sessionId = `sess-visitor-${Date.now().toString(36)}`;
-    alias = `Visitor #${randomNum} (You)`;
+    sessionId = `sess-visitor-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
     localStorage.setItem(LOCAL_SESSION_KEY, sessionId);
-    localStorage.setItem(LOCAL_ALIAS_KEY, alias);
   }
-
-  return {
-    sessionId,
-    alias: alias || 'Visitor (You)',
-  };
+  return sessionId;
 }
 
 export function useAaronRealtime() {
   const [sessionsMap, setSessionsMap] = useState<Record<string, ChatSession>>({});
   const [currentSessionId, setCurrentSessionId] = useState<string>(() => {
-    return getOrCreateBrowserSessionId().sessionId;
+    return getOrCreateBrowserSessionId();
   });
   const [wsConnected, setWsConnected] = useState<boolean>(false);
   const wsRef = useRef<WebSocket | null>(null);
@@ -45,34 +39,10 @@ export function useAaronRealtime() {
     }
   }, []);
 
-  const joinCurrentSession = useCallback(async (sessionId: string, alias?: string) => {
-    try {
-      const res = await fetch('/api/session/join', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          alias: alias || localStorage.getItem(LOCAL_ALIAS_KEY) || 'Visitor (You)',
-          userAgent: navigator.userAgent.includes('Mac') ? 'macOS / Browser' : 'Web Client',
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.sessions) {
-          setSessionsMap(data.sessions);
-        }
-      }
-    } catch {
-      // Handled via WS or next sync
-    }
-  }, []);
-
   useEffect(() => {
-    const { sessionId, alias } = getOrCreateBrowserSessionId();
+    const sessionId = getOrCreateBrowserSessionId();
     setCurrentSessionId(sessionId);
-    fetchInitialState().then(() => {
-      joinCurrentSession(sessionId, alias);
-    });
+    fetchInitialState();
 
     let isUnmounted = false;
 
@@ -86,12 +56,11 @@ export function useAaronRealtime() {
       ws.onopen = () => {
         if (isUnmounted) return;
         setWsConnected(true);
+        // Register socket presence without creating an empty session on the server
         ws.send(
           JSON.stringify({
             type: 'session:join',
             sessionId: localStorage.getItem(LOCAL_SESSION_KEY) || sessionId,
-            alias: localStorage.getItem(LOCAL_ALIAS_KEY) || alias,
-            userAgent: navigator.userAgent.includes('Mac') ? 'macOS / Browser' : 'Web Client',
           })
         );
       };
@@ -130,7 +99,7 @@ export function useAaronRealtime() {
         wsRef.current.close();
       }
     };
-  }, [fetchInitialState, joinCurrentSession]);
+  }, [fetchInitialState]);
 
   const sendUserMessage = useCallback(
     async (text: string, targetSessionId?: string) => {
@@ -139,12 +108,8 @@ export function useAaronRealtime() {
       if (!trimmed) return;
 
       const messageId = `msg-u-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-      const alias =
-        sid === currentSessionId
-          ? localStorage.getItem(LOCAL_ALIAS_KEY) || 'Visitor (You)'
-          : undefined;
+      const userAgent = navigator.userAgent.includes('Mac') ? 'macOS / Browser' : 'Web Client';
 
-      // Always send via HTTP POST to guarantee immediate state return even when HMR/WS is disabled
       const res = await fetch('/api/message/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -152,8 +117,7 @@ export function useAaronRealtime() {
           sessionId: sid,
           text: trimmed,
           messageId,
-          alias,
-          userAgent: 'Web Client',
+          userAgent,
         }),
       });
       if (res.ok) {
@@ -245,16 +209,32 @@ export function useAaronRealtime() {
     }
   }, []);
 
+  // Reset and reuse the visitor's existing session instead of multiplying new session IDs
   const startNewVisitorChat = useCallback(async () => {
-    const randomNum = Math.floor(500 + Math.random() * 490);
-    const newSessionId = `sess-visitor-${Date.now().toString(36)}`;
-    const newAlias = `Visitor #${randomNum} (You)`;
-    localStorage.setItem(LOCAL_SESSION_KEY, newSessionId);
-    localStorage.setItem(LOCAL_ALIAS_KEY, newAlias);
-    setCurrentSessionId(newSessionId);
-    await joinCurrentSession(newSessionId, newAlias);
-    return newSessionId;
-  }, [joinCurrentSession]);
+    const sid = localStorage.getItem(LOCAL_SESSION_KEY) || currentSessionId;
+    setCurrentSessionId(sid);
+    try {
+      const res = await fetch('/api/session/reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: sid }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.sessions) {
+          setSessionsMap(data.sessions);
+        }
+      }
+    } catch {
+      // Fallback: clear locally if offline
+      setSessionsMap((prev) => {
+        const next = { ...prev };
+        delete next[sid];
+        return next;
+      });
+    }
+    return sid;
+  }, [currentSessionId]);
 
   return {
     sessionsMap,
